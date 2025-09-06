@@ -37,9 +37,10 @@ interface ElderlyUser {
 export default function CaretakerDashboard() {
   const { language, setLanguage, t } = useLanguage()
   const router = useRouter()
-  const [currentView, setCurrentView] = useState<'dashboard' | 'medicines' | 'elderly'>('dashboard')
+  const [currentView, setCurrentView] = useState<'dashboard' | 'elderly'>('dashboard')
   const [elderlyUsers, setElderlyUsers] = useState<ElderlyUser[]>([])
   const [selectedElderly, setSelectedElderly] = useState<string | null>(null)
+  const [showMedicinesForUser, setShowMedicinesForUser] = useState<string | null>(null)
   const [medicines, setMedicines] = useState<Medicine[]>([])
   const [showAddMedicine, setShowAddMedicine] = useState(false)
   const [editingMedicine, setEditingMedicine] = useState<Medicine | null>(null)
@@ -66,13 +67,11 @@ export default function CaretakerDashboard() {
 
   useEffect(() => {
     loadElderlyUsers()
+    loadAllMedicines()
   }, [])
 
-  useEffect(() => {
-    if (selectedElderly) {
-      loadMedicines(selectedElderly)
-    }
-  }, [selectedElderly])
+  // Remove the useEffect that reloads medicines when selectedElderly changes
+  // since we now manage medicines inline and don't want to lose local changes
 
   const loadElderlyUsers = async () => {
     try {
@@ -107,9 +106,16 @@ export default function CaretakerDashboard() {
     }
   }
 
-  const loadMedicines = async (elderlyId: string) => {
+  const loadAllMedicines = async () => {
     try {
-      // In demo mode, show sample medicines
+      // Check if we have locally stored medicines first
+      const storedMedicines = localStorage.getItem('caretaker-medicines')
+      if (storedMedicines) {
+        setMedicines(JSON.parse(storedMedicines))
+        return
+      }
+
+      // In demo mode, show sample medicines for all users
       const sampleMedicines: Medicine[] = [
         {
           id: 'med-1',
@@ -121,7 +127,7 @@ export default function CaretakerDashboard() {
           expiryDate: '2024-12-31',
           foodTiming: 'after',
           instructions: 'खाना खाने के बाद लें',
-          elderlyUserId: elderlyId,
+          elderlyUserId: 'demo-elderly-1',
           elderlyName: 'राम प्रसाद शर्मा',
           adherenceStreak: 7
         },
@@ -135,9 +141,37 @@ export default function CaretakerDashboard() {
           expiryDate: '2025-06-30',
           foodTiming: 'with',
           instructions: 'भोजन के साथ लें',
-          elderlyUserId: elderlyId,
+          elderlyUserId: 'demo-elderly-1',
           elderlyName: 'राम प्रसाद शर्मा',
           adherenceStreak: 12
+        },
+        {
+          id: 'med-3',
+          name: 'विटामिन डी (Vitamin D3)',
+          dosage: '1 capsule',
+          frequency: 'once-daily',
+          timeSlots: ['09:00'],
+          stockDays: 20,
+          expiryDate: '2025-03-15',
+          foodTiming: 'with',
+          instructions: 'नाश्ते के साथ लें',
+          elderlyUserId: 'demo-elderly-2',
+          elderlyName: 'सुशीला देवी',
+          adherenceStreak: 8
+        },
+        {
+          id: 'med-4',
+          name: 'कैल्शियम (Calcium)',
+          dosage: '2 tablets',
+          frequency: 'twice-daily',
+          timeSlots: ['08:00', '20:00'],
+          stockDays: 10,
+          expiryDate: '2024-11-30',
+          foodTiming: 'after',
+          instructions: 'खाना खाने के बाद लें',
+          elderlyUserId: 'demo-elderly-2',
+          elderlyName: 'सुशीला देवी',
+          adherenceStreak: 5
         }
       ]
       setMedicines(sampleMedicines)
@@ -148,22 +182,30 @@ export default function CaretakerDashboard() {
   }
 
   const handleAddMedicine = async () => {
-    if (!selectedElderly) {
+    if (!selectedElderly && !showMedicinesForUser) {
       toast.error('Please select an elderly person first')
       return
     }
 
+    // Use the user ID from either selectedElderly or showMedicinesForUser
+    const elderlyId = selectedElderly || showMedicinesForUser
+    if (!elderlyId) return
+
     try {
       const newMedicine: Omit<Medicine, 'id'> = {
         ...medicineForm,
-        elderlyUserId: selectedElderly,
-        elderlyName: elderlyUsers.find(u => u.id === selectedElderly)?.name || '',
+        elderlyUserId: elderlyId,
+        elderlyName: elderlyUsers.find(u => u.id === elderlyId)?.name || '',
         adherenceStreak: 0
       }
 
       // In demo mode, just add to local state
       const id = 'med-' + Date.now()
-      setMedicines(prev => [...prev, { ...newMedicine, id }])
+      const newMedicines = [...medicines, { ...newMedicine, id }]
+      setMedicines(newMedicines)
+      
+      // Save to localStorage for persistence
+      localStorage.setItem('caretaker-medicines', JSON.stringify(newMedicines))
       
       setShowAddMedicine(false)
       setMedicineForm({
@@ -189,11 +231,15 @@ export default function CaretakerDashboard() {
 
     try {
       // In demo mode, update local state
-      setMedicines(prev => prev.map(med => 
+      const updatedMedicines = medicines.map(med => 
         med.id === editingMedicine.id 
           ? { ...med, ...medicineForm }
           : med
-      ))
+      )
+      setMedicines(updatedMedicines)
+      
+      // Save to localStorage for persistence
+      localStorage.setItem('caretaker-medicines', JSON.stringify(updatedMedicines))
       
       setEditingMedicine(null)
       setMedicineForm({
@@ -217,7 +263,12 @@ export default function CaretakerDashboard() {
   const handleDeleteMedicine = async (medicineId: string) => {
     try {
       // In demo mode, remove from local state
-      setMedicines(prev => prev.filter(med => med.id !== medicineId))
+      const updatedMedicines = medicines.filter(med => med.id !== medicineId)
+      setMedicines(updatedMedicines)
+      
+      // Save to localStorage for persistence
+      localStorage.setItem('caretaker-medicines', JSON.stringify(updatedMedicines))
+      
       toast.success(language === 'hi' ? 'दवा हटा दी गई' : 'Medicine deleted successfully')
     } catch (error) {
       console.error('Error deleting medicine:', error)
@@ -339,17 +390,6 @@ export default function CaretakerDashboard() {
             Dashboard
           </button>
           <button
-            onClick={() => setCurrentView('medicines')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              currentView === 'medicines'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-blue-50'
-            }`}
-          >
-            <Pill className="inline h-4 w-4 mr-2" />
-            {t('caretaker.manage.medicines')}
-          </button>
-          <button
             onClick={() => setCurrentView('elderly')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               currentView === 'elderly'
@@ -468,75 +508,6 @@ export default function CaretakerDashboard() {
           </div>
         )}
 
-        {/* Medicines View */}
-        {currentView === 'medicines' && (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">{t('caretaker.manage.medicines')}</h2>
-                {selectedElderly && (
-                  <p className="text-sm text-gray-600 mt-1">
-                    {t('managing.medicines.for')}: {elderlyUsers.find(u => u.id === selectedElderly)?.name}
-                  </p>
-                )}
-              </div>
-              <button
-                onClick={() => setShowAddMedicine(true)}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center"
-              >
-                <PlusCircle className="h-5 w-5 mr-2" />
-                {t('medicine.add.new')}
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {medicines.map((medicine) => (
-                <div key={medicine.id} className="bg-white rounded-xl shadow-lg p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-lg font-bold text-gray-900">{medicine.name}</h3>
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => startEditMedicine(medicine)}
-                        className="p-1 text-blue-600 hover:bg-blue-50 rounded"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteMedicine(medicine.id)}
-                        className="p-1 text-red-600 hover:bg-red-50 rounded"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2 text-sm text-gray-600">
-                    <p><strong>{t('label.dosage')}:</strong> {medicine.dosage}</p>
-                    <p><strong>{t('label.frequency')}:</strong> {medicine.frequency}</p>
-                    <p><strong>{t('label.times')}:</strong> {medicine.timeSlots.join(', ')}</p>
-                    <p><strong>{t('label.stock')}:</strong> {medicine.stockDays} {t('label.days')}</p>
-                    <p><strong>{t('label.expires')}:</strong> {medicine.expiryDate}</p>
-                    {medicine.instructions && (
-                      <p><strong>{t('label.instructions')}:</strong> {medicine.instructions}</p>
-                    )}
-                  </div>
-                  
-                  <div className="mt-4 pt-4 border-t">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-green-600 font-medium">
-                        {medicine.adherenceStreak} {t('status.day.streak')}
-                      </span>
-                      <span className={`font-medium ${medicine.stockDays < 7 ? 'text-red-600' : 'text-gray-600'}`}>
-                        {medicine.stockDays < 7 ? t('status.low.stock') : t('status.stock.ok')}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Elderly Users View */}
         {currentView === 'elderly' && (
           <div className="space-y-6">
@@ -570,16 +541,95 @@ export default function CaretakerDashboard() {
                     <button
                       onClick={() => {
                         setSelectedElderly(elderly.id)
-                        setCurrentView('medicines')
+                        setShowMedicinesForUser(showMedicinesForUser === elderly.id ? null : elderly.id)
                       }}
                       className="w-full bg-blue-50 text-blue-600 py-2 rounded-lg font-medium hover:bg-blue-100 transition-colors"
                     >
-                      {t('button.manage.medicines')}
+                      {showMedicinesForUser === elderly.id ? t('button.hide.medicines') : t('button.manage.medicines')}
                     </button>
                   </div>
                 </div>
               ))}
             </div>
+
+            {/* Medicines Display for Selected User */}
+            {showMedicinesForUser && (
+              <div className="mt-8">
+                <div className="bg-white rounded-xl shadow-lg p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">
+                        {t('caretaker.manage.medicines')}
+                      </h3>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {t('managing.medicines.for')}: {elderlyUsers.find(u => u.id === showMedicinesForUser)?.name}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setShowAddMedicine(true)}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center"
+                    >
+                      <PlusCircle className="h-5 w-5 mr-2" />
+                      {t('medicine.add.new')}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {medicines.filter(med => med.elderlyUserId === showMedicinesForUser).map((medicine) => (
+                      <div key={medicine.id} className="bg-gray-50 rounded-lg p-4 border">
+                        <div className="flex justify-between items-start mb-3">
+                          <h4 className="font-semibold text-gray-900">{medicine.name}</h4>
+                          <div className="flex space-x-1">
+                            <button
+                              onClick={() => startEditMedicine(medicine)}
+                              className="p-1 text-blue-600 hover:bg-blue-100 rounded"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteMedicine(medicine.id)}
+                              className="p-1 text-red-600 hover:bg-red-100 rounded"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-1 text-sm text-gray-600">
+                          <p><strong>{t('label.dosage')}:</strong> {medicine.dosage}</p>
+                          <p><strong>{t('label.frequency')}:</strong> {medicine.frequency}</p>
+                          <p><strong>{t('label.times')}:</strong> {medicine.timeSlots.join(', ')}</p>
+                          <p><strong>{t('label.stock')}:</strong> {medicine.stockDays} {t('label.days')}</p>
+                          <p><strong>{t('label.expires')}:</strong> {medicine.expiryDate}</p>
+                          {medicine.instructions && (
+                            <p><strong>{t('label.instructions')}:</strong> {medicine.instructions}</p>
+                          )}
+                        </div>
+                        
+                        <div className="mt-3 pt-3 border-t border-gray-200">
+                          <div className="flex justify-between text-xs">
+                            <span className="text-green-600 font-medium">
+                              {medicine.adherenceStreak} {t('status.day.streak')}
+                            </span>
+                            <span className={`font-medium ${medicine.stockDays < 7 ? 'text-red-600' : 'text-gray-600'}`}>
+                              {medicine.stockDays < 7 ? t('status.low.stock') : t('status.stock.ok')}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {medicines.filter(med => med.elderlyUserId === showMedicinesForUser).length === 0 && (
+                    <div className="text-center py-8 text-gray-500">
+                      <Pill className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                      <p>No medicines added yet</p>
+                      <p className="text-sm">Click "Add New Medicine" to get started</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

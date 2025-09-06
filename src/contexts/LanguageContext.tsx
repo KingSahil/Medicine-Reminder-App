@@ -182,6 +182,7 @@ const translations = {
     'status.expired': 'Expired',
     'status.active': 'Active',
     'button.manage.medicines': 'Manage Medicines',
+    'button.hide.medicines': 'Hide Medicines',
     'managing.medicines.for': 'Managing medicines for',
     
     // Voice & Notifications
@@ -377,6 +378,7 @@ const translations = {
     'status.expired': 'समाप्त हो गई',
     'status.active': 'सक्रिय',
     'button.manage.medicines': 'दवाएं प्रबंधित करें',
+    'button.hide.medicines': 'दवाएं छुपाएं',
     'managing.medicines.for': 'के लिए दवाएं प्रबंधित कर रहे हैं',
     
     // Voice & Notifications
