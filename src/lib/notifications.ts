@@ -90,7 +90,7 @@ export class NotificationService {
         ? `Time to take ${medicineName}!` 
         : `Reminder: ${medicineName} in ${timing}`
 
-      const options: NotificationOptions = {
+      const options = {
         body: `${dosage} - Don't forget to take your medicine`,
         icon: '/icon.svg',
         badge: '/icon.svg',
@@ -140,7 +140,7 @@ export class NotificationService {
       ? `${medicineName} has expired. Please replace it immediately.`
       : `${medicineName} expires in ${daysUntilExpiry} day${daysUntilExpiry === 1 ? '' : 's'}.`
 
-    const options: NotificationOptions = {
+    const options = {
       body,
       icon: '/icon.svg',
       badge: '/icon.svg',
@@ -208,7 +208,7 @@ export class NotificationService {
   }
 
   // Handle notification clicks
-  handleNotificationClick(event: NotificationEvent): void {
+  handleNotificationClick(event: any): void {
     event.notification.close()
 
     const { action } = event
@@ -237,8 +237,8 @@ export class NotificationService {
         break
       default:
         // Open the app
-        if (clients.openWindow) {
-          clients.openWindow('/get-started')
+        if ((self as any).clients && (self as any).clients.openWindow) {
+          (self as any).clients.openWindow('/get-started')
         }
     }
   }
@@ -265,8 +265,8 @@ export class NotificationService {
   private async handleReplaceOrder(medicineName: string): Promise<void> {
     // Open ordering flow or redirect to pharmacy
     console.log(`Opening replacement order for ${medicineName}`)
-    if (clients.openWindow) {
-      clients.openWindow(`/get-started?order=${medicineName}`)
+    if ((self as any).clients && (self as any).clients.openWindow) {
+      (self as any).clients.openWindow(`/get-started?order=${medicineName}`)
     }
   }
 }

@@ -96,20 +96,20 @@ export default function EnhancedAddMedicineForm({ onSubmit, onClose }: AddMedici
     }
 
     setIsListening(true)
-    const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition
+    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition
     const recognition = new SpeechRecognition()
     
     recognition.lang = 'hi-IN'
     recognition.continuous = false
     recognition.interimResults = false
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript
       setForm(prev => ({ ...prev, name: transcript }))
       toast.success('आवाज़ सुन ली गई!')
     }
 
-    recognition.onerror = (event) => {
+    recognition.onerror = (event: any) => {
       console.error('Speech recognition error:', event.error)
       toast.error('आवाज़ पहचान में समस्या')
     }

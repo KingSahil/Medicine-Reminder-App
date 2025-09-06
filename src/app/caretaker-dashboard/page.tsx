@@ -54,7 +54,7 @@ export default function CaretakerDashboard() {
     timeSlots: ['09:00', '21:00'],
     stockDays: 30,
     expiryDate: '',
-    foodTiming: 'anytime' as const,
+    foodTiming: 'anytime' as 'before' | 'after' | 'with' | 'anytime',
     instructions: ''
   })
 
@@ -263,7 +263,7 @@ export default function CaretakerDashboard() {
       timeSlots: medicine.timeSlots,
       stockDays: medicine.stockDays,
       expiryDate: medicine.expiryDate,
-      foodTiming: medicine.foodTiming as 'before' | 'after' | 'with' | 'anytime',
+      foodTiming: medicine.foodTiming,
       instructions: medicine.instructions
     })
     setShowAddMedicine(true)
