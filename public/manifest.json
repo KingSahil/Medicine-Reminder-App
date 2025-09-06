@@ -1,0 +1,22 @@
+{
+  "name": "Medicine Reminder - Smart Healthcare Assistant",
+  "short_name": "MediRemind",
+  "description": "AI-powered medicine reminder with expiry tracking and emergency SOS features",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["health", "medical", "productivity"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "prefer_related_applications": false
+}
