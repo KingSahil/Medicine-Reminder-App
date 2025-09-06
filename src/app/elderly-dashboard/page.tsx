@@ -63,7 +63,7 @@ export default function ElderlyDashboard() {
     if (profile) {
       setUserProfile(JSON.parse(profile))
     } else {
-      router.push('/login')
+      router.push('/get-started')
       return
     }
 
@@ -235,7 +235,7 @@ export default function ElderlyDashboard() {
   const handleLogout = () => {
     localStorage.removeItem('userProfile')
     localStorage.removeItem('userMode')
-    router.push('/login')
+    router.push('/get-started')
   }
 
   if (loading) {

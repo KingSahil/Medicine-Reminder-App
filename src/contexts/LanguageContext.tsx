@@ -170,6 +170,14 @@ const translations = {
     'settings.voice': 'Voice Settings',
     'settings.notifications': 'Notifications',
     'settings.emergency': 'Emergency Contacts',
+    
+    // Chatbot
+    'chatbot.greeting': 'Hello! I\'m your AI health assistant. How can I help you today?',
+    'chatbot.help.topics': 'You can ask me about:',
+    'chatbot.topic.interactions': 'Medicine interactions',
+    'chatbot.topic.dosage': 'Dosage information',
+    'chatbot.topic.reminders': 'Setting reminders',
+    'chatbot.topic.side.effects': 'Side effects',
   },
   hi: {
     // Common
@@ -330,6 +338,14 @@ const translations = {
     'settings.voice': 'आवाज़ सेटिंग्स',
     'settings.notifications': 'सूचनाएं',
     'settings.emergency': 'आपातकालीन संपर्क',
+    
+    // Chatbot
+    'chatbot.greeting': 'नमस्ते! मैं आपका AI स्वास्थ्य सहायक हूं। आज मैं आपकी कैसे मदद कर सकता हूं?',
+    'chatbot.help.topics': 'आप मुझसे इन विषयों पर पूछ सकते हैं:',
+    'chatbot.topic.interactions': 'दवा के बीच इंटरैक्शन',
+    'chatbot.topic.dosage': 'डोज़ की जानकारी',
+    'chatbot.topic.reminders': 'रिमाइंडर सेट करना',
+    'chatbot.topic.side.effects': 'साइड इफेक्ट्स',
   }
 }
 

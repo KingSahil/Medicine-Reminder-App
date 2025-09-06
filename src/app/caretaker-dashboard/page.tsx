@@ -248,7 +248,7 @@ export default function CaretakerDashboard() {
   const handleLogout = async () => {
     try {
       await signOut(auth)
-      router.push('/login')
+      router.push('/get-started')
     } catch (error) {
       console.error('Logout error:', error)
     }

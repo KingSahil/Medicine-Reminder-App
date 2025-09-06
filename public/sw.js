@@ -4,7 +4,7 @@
 const CACHE_NAME = 'medicine-reminder-v1'
 const STATIC_ASSETS = [
   '/',
-  '/dashboard',
+  '/get-started',
   '/manifest.json',
   '/icon.svg'
 ]
@@ -115,11 +115,11 @@ self.addEventListener('notificationclick', (event) => {
       console.log('Expiry warning acknowledged')
       break
     case 'replace':
-      openWindow(`/dashboard?order=${data.medicineName}`)
+      openWindow(`/get-started?order=${data.medicineName}`)
       break
     default:
       // Default action - open the app
-      openWindow('/dashboard')
+      openWindow('/get-started')
       break
   }
 })

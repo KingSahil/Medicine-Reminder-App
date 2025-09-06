@@ -1,14 +1,9 @@
+
 # 💊 Medicine Reminder - Smart Healthcare Assistant
 
-A comprehensive web application that helps users manage their medicines with AI assistance, timely notifications, and emergency support. Built with Next.js, TypeScript, Firebase, and AI integration.
+A comprehensive web application that helps users manage their medicines with timely notifications and emergency support. Built with Next.js, TypeScript, and Firebase.
 
 ## 🌟 Features
-
-### 🤖 AI Chatbot Reminder
-- Natural language interaction for medicine management
-- Smart scheduling and personalized reminders
-- Multiple notification methods (web push, email, SMS)
-- Dosage tracking and adherence monitoring
 
 ### 📅 Medicine Expiry Tracker
 - Automatic expiry date monitoring
@@ -27,7 +22,6 @@ A comprehensive web application that helps users manage their medicines with AI 
 - **Frontend**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS with custom design system
 - **Backend**: Firebase (Firestore, Authentication, Cloud Messaging)
-- **AI Integration**: OpenAI GPT API with rule-based fallback
 - **Notifications**: Web Push API, Service Workers
 - **PWA**: Progressive Web App capabilities
 - **Icons**: Lucide React
@@ -61,9 +55,6 @@ A comprehensive web application that helps users manage their medicines with AI 
    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
    NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-
-   # OpenAI Configuration (optional)
-   OPENAI_API_KEY=your_openai_api_key_here
 
    # Twilio Configuration (for SMS)
    TWILIO_ACCOUNT_SID=your_twilio_account_sid
@@ -119,12 +110,6 @@ A comprehensive web application that helps users manage their medicines with AI 
    - Add VAPID keys to environment variables
    - Configure service worker for background notifications
 
-### OpenAI Integration (Optional)
-
-1. Get an API key from [OpenAI](https://platform.openai.com/api-keys)
-2. Add to your `.env.local` file
-3. The app will fall back to rule-based responses if no API key is provided
-
 ### PWA Configuration
 
 The app is configured as a Progressive Web App with:
@@ -136,7 +121,7 @@ The app is configured as a Progressive Web App with:
 ## 📱 Usage
 
 ### Adding Medicines
-1. Use the dashboard or chat with the AI assistant
+1. Use the dashboard
 2. Provide medicine name, dosage, frequency, and expiry date
 3. Set up reminder times
 4. Configure notification preferences
@@ -153,12 +138,6 @@ The app is configured as a Progressive Web App with:
 3. Location and medical info shared automatically
 4. Contacts notified via SMS/call
 
-### AI Assistant
-- Natural language medicine queries
-- Schedule management
-- Health advice and reminders
-- Emergency guidance
-
 ## 🏗️ Project Structure
 
 ```
@@ -168,14 +147,12 @@ src/
 │   ├── page.tsx           # Home page
 │   └── dashboard/         # Dashboard pages
 ├── components/            # React components
-│   ├── Chatbot.tsx        # AI chatbot component
 │   └── EmergencySOSButton.tsx  # Emergency SOS
 ├── lib/                   # Utility libraries
 │   ├── firebase.ts        # Firebase configuration
-│   ├── chatbot.ts         # AI chatbot logic
 │   └── notifications.ts   # Notification service
 ├── types/                 # TypeScript type definitions
-├── styles/               # Global styles
+├── styles/                # Global styles
 └── hooks/                # Custom React hooks
 
 public/

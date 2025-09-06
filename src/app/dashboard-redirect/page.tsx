@@ -7,13 +7,8 @@ export default function DashboardRedirect() {
   const router = useRouter()
 
   useEffect(() => {
-    // Redirect to elderly dashboard or login based on user state
-    const userProfile = localStorage.getItem('userProfile')
-    if (userProfile) {
-      router.push('/elderly-dashboard')
-    } else {
-      router.push('/login')
-    }
+    // Redirect to the consolidated get-started page
+    router.replace('/get-started')
   }, [router])
 
   return (

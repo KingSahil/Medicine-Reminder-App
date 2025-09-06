@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { useLanguage } from '../../contexts/LanguageContext'
 import { 
   Plus, 
   MessageCircle, 
@@ -33,6 +34,7 @@ interface Medicine {
 }
 
 export default function DashboardPage() {
+  const { language, setLanguage, t } = useLanguage()
   const [activeTab, setActiveTab] = useState('overview')
   const [medicines, setMedicines] = useState<Medicine[]>([
     {
@@ -485,15 +487,15 @@ export default function DashboardPage() {
               <div className="flex-1 p-4 overflow-y-auto">
                 <div className="space-y-4">
                   <div className="bg-blue-100 p-3 rounded-lg">
-                    <p className="text-sm">Hello! I'm your AI health assistant. How can I help you today?</p>
+                    <p className="text-sm">{t('chatbot.greeting')}</p>
                   </div>
                   <div className="bg-gray-100 p-3 rounded-lg">
-                    <p className="text-sm">You can ask me about:</p>
+                    <p className="text-sm">{t('chatbot.help.topics')}</p>
                     <ul className="text-xs mt-2 space-y-1">
-                      <li>• Medicine interactions</li>
-                      <li>• Dosage information</li>
-                      <li>• Setting reminders</li>
-                      <li>• Side effects</li>
+                      <li>• {t('chatbot.topic.interactions')}</li>
+                      <li>• {t('chatbot.topic.dosage')}</li>
+                      <li>• {t('chatbot.topic.reminders')}</li>
+                      <li>• {t('chatbot.topic.side.effects')}</li>
                     </ul>
                   </div>
                 </div>

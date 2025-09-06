@@ -238,7 +238,7 @@ export class NotificationService {
       default:
         // Open the app
         if (clients.openWindow) {
-          clients.openWindow('/dashboard')
+          clients.openWindow('/get-started')
         }
     }
   }
@@ -266,7 +266,7 @@ export class NotificationService {
     // Open ordering flow or redirect to pharmacy
     console.log(`Opening replacement order for ${medicineName}`)
     if (clients.openWindow) {
-      clients.openWindow(`/dashboard?order=${medicineName}`)
+      clients.openWindow(`/get-started?order=${medicineName}`)
     }
   }
 }
