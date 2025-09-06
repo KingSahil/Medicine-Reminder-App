@@ -122,6 +122,11 @@ const translations = {
     'dashboard.adherence.streak': 'Adherence Streak',
     'dashboard.voice.reminder': 'Voice Reminder',
     'dashboard.emergency': 'Emergency',
+    'dashboard.weekly.report': 'Weekly Report',
+    'dashboard.medicine.stock.status': 'Medicine Stock Status',
+    'dashboard.average.streak': 'Average Streak',
+    'dashboard.recent.medicines': 'Recent Medicines',
+    'dashboard.elderly.users': 'Elderly Users',
     
     // Medicine Management
     'medicine.add.new': 'Add New Medicine',
@@ -156,6 +161,28 @@ const translations = {
     'caretaker.add.elderly': 'Add Elderly Person',
     'caretaker.emergency.contacts': 'Emergency Contacts',
     'caretaker.health.reports': 'Health Reports',
+    
+    // Detail Labels
+    'label.dosage': 'Dosage',
+    'label.frequency': 'Frequency',
+    'label.times': 'Times',
+    'label.stock': 'Stock',
+    'label.expires': 'Expires',
+    'label.instructions': 'Instructions',
+    'label.phone': 'Phone',
+    'label.emergency': 'Emergency',
+    'label.medicines': 'Medicines',
+    'label.last.active': 'Last Active',
+    'label.days': 'days',
+    'status.day.streak': 'day streak',
+    'status.low.stock': 'Low stock!',
+    'status.stock.ok': 'Stock OK',
+    'dashboard.adherence.rate': 'Adherence Rate',
+    'status.expiring.soon': 'Expiring Soon',
+    'status.expired': 'Expired',
+    'status.active': 'Active',
+    'button.manage.medicines': 'Manage Medicines',
+    'managing.medicines.for': 'Managing medicines for',
     
     // Voice & Notifications
     'voice.enabled': 'Voice Enabled',
@@ -290,6 +317,11 @@ const translations = {
     'dashboard.adherence.streak': 'नियमितता',
     'dashboard.voice.reminder': 'आवाज़ रिमाइंडर',
     'dashboard.emergency': 'आपातकाल',
+    'dashboard.weekly.report': 'साप्ताहिक रिपोर्ट',
+    'dashboard.medicine.stock.status': 'दवा स्टॉक स्थिति',
+    'dashboard.average.streak': 'औसत स्ट्रीक',
+    'dashboard.recent.medicines': 'हाल की दवाएं',
+    'dashboard.elderly.users': 'बुजुर्ग उपयोगकर्ता',
     
     // Medicine Management
     'medicine.add.new': 'नई दवा जोड़ें',
@@ -324,6 +356,28 @@ const translations = {
     'caretaker.add.elderly': 'बुजुर्ग जोड़ें',
     'caretaker.emergency.contacts': 'आपातकालीन संपर्क',
     'caretaker.health.reports': 'स्वास्थ्य रिपोर्ट',
+    
+    // Detail Labels
+    'label.dosage': 'खुराक',
+    'label.frequency': 'आवृत्ति',
+    'label.times': 'समय',
+    'label.stock': 'स्टॉक',
+    'label.expires': 'समाप्त',
+    'label.instructions': 'निर्देश',
+    'label.phone': 'फोन',
+    'label.emergency': 'आपातकाल',
+    'label.medicines': 'दवाएं',
+    'label.last.active': 'अंतिम सक्रिय',
+    'label.days': 'दिन',
+    'status.day.streak': 'दिन स्ट्रीक',
+    'status.low.stock': 'कम स्टॉक!',
+    'status.stock.ok': 'स्टॉक ठीक है',
+    'dashboard.adherence.rate': 'अनुपालन दर',
+    'status.expiring.soon': 'जल्द समाप्त',
+    'status.expired': 'समाप्त हो गई',
+    'status.active': 'सक्रिय',
+    'button.manage.medicines': 'दवाएं प्रबंधित करें',
+    'managing.medicines.for': 'के लिए दवाएं प्रबंधित कर रहे हैं',
     
     // Voice & Notifications
     'voice.enabled': 'आवाज़ चालू',

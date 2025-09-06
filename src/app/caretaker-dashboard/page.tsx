@@ -448,7 +448,7 @@ export default function CaretakerDashboard() {
             {/* Recent Medicines */}
             {selectedElderly && medicines.length > 0 && (
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Recent Medicines</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-4">{t('dashboard.recent.medicines')}</h3>
                 <div className="space-y-3">
                   {medicines.slice(0, 3).map((medicine) => (
                     <div key={medicine.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -458,7 +458,7 @@ export default function CaretakerDashboard() {
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium text-gray-900">{medicine.stockDays} days left</p>
-                        <p className="text-xs text-gray-500">{medicine.adherenceStreak} day streak</p>
+                        <p className="text-xs text-gray-500">{medicine.adherenceStreak} {t('status.day.streak')}</p>
                       </div>
                     </div>
                   ))}
@@ -472,7 +472,14 @@ export default function CaretakerDashboard() {
         {currentView === 'medicines' && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-900">{t('caretaker.manage.medicines')}</h2>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">{t('caretaker.manage.medicines')}</h2>
+                {selectedElderly && (
+                  <p className="text-sm text-gray-600 mt-1">
+                    {t('managing.medicines.for')}: {elderlyUsers.find(u => u.id === selectedElderly)?.name}
+                  </p>
+                )}
+              </div>
               <button
                 onClick={() => setShowAddMedicine(true)}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center"
@@ -504,23 +511,23 @@ export default function CaretakerDashboard() {
                   </div>
                   
                   <div className="space-y-2 text-sm text-gray-600">
-                    <p><strong>Dosage:</strong> {medicine.dosage}</p>
-                    <p><strong>Frequency:</strong> {medicine.frequency}</p>
-                    <p><strong>Times:</strong> {medicine.timeSlots.join(', ')}</p>
-                    <p><strong>Stock:</strong> {medicine.stockDays} days</p>
-                    <p><strong>Expires:</strong> {medicine.expiryDate}</p>
+                    <p><strong>{t('label.dosage')}:</strong> {medicine.dosage}</p>
+                    <p><strong>{t('label.frequency')}:</strong> {medicine.frequency}</p>
+                    <p><strong>{t('label.times')}:</strong> {medicine.timeSlots.join(', ')}</p>
+                    <p><strong>{t('label.stock')}:</strong> {medicine.stockDays} {t('label.days')}</p>
+                    <p><strong>{t('label.expires')}:</strong> {medicine.expiryDate}</p>
                     {medicine.instructions && (
-                      <p><strong>Instructions:</strong> {medicine.instructions}</p>
+                      <p><strong>{t('label.instructions')}:</strong> {medicine.instructions}</p>
                     )}
                   </div>
                   
                   <div className="mt-4 pt-4 border-t">
                     <div className="flex justify-between text-sm">
                       <span className="text-green-600 font-medium">
-                        {medicine.adherenceStreak} day streak
+                        {medicine.adherenceStreak} {t('status.day.streak')}
                       </span>
                       <span className={`font-medium ${medicine.stockDays < 7 ? 'text-red-600' : 'text-gray-600'}`}>
-                        {medicine.stockDays < 7 ? 'Low stock!' : 'Stock OK'}
+                        {medicine.stockDays < 7 ? t('status.low.stock') : t('status.stock.ok')}
                       </span>
                     </div>
                   </div>
@@ -534,7 +541,7 @@ export default function CaretakerDashboard() {
         {currentView === 'elderly' && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-900">Elderly Users</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t('dashboard.elderly.users')}</h2>
               <button
                 onClick={() => setShowAddElderly(true)}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center"
@@ -553,18 +560,21 @@ export default function CaretakerDashboard() {
                   </div>
                   
                   <div className="space-y-2 text-sm text-gray-600">
-                    <p><strong>Phone:</strong> {elderly.phone}</p>
-                    <p><strong>Emergency:</strong> {elderly.emergencyContact}</p>
-                    <p><strong>Medicines:</strong> {elderly.medicineCount}</p>
-                    <p><strong>Last Active:</strong> {new Date(elderly.lastActive).toLocaleDateString()}</p>
+                    <p><strong>{t('label.phone')}:</strong> {elderly.phone}</p>
+                    <p><strong>{t('label.emergency')}:</strong> {elderly.emergencyContact}</p>
+                    <p><strong>{t('label.medicines')}:</strong> {elderly.medicineCount}</p>
+                    <p><strong>{t('label.last.active')}:</strong> {new Date(elderly.lastActive).toLocaleDateString()}</p>
                   </div>
                   
                   <div className="mt-4 pt-4 border-t">
                     <button
-                      onClick={() => setSelectedElderly(elderly.id)}
+                      onClick={() => {
+                        setSelectedElderly(elderly.id)
+                        setCurrentView('medicines')
+                      }}
                       className="w-full bg-blue-50 text-blue-600 py-2 rounded-lg font-medium hover:bg-blue-100 transition-colors"
                     >
-                      Manage Medicines
+                      {t('button.manage.medicines')}
                     </button>
                   </div>
                 </div>

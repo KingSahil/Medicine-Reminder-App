@@ -351,7 +351,7 @@ export default function ElderlyDashboard() {
               <Pill className="w-8 h-8 text-medical-600 mr-3" />
               <div>
                 <p className="text-2xl font-bold text-gray-800">{medicines.length}</p>
-                <p className="text-sm text-gray-600">कुल दवाएं</p>
+                <p className="text-sm text-gray-600">{t('dashboard.total.medicines')}</p>
               </div>
             </div>
           </div>
@@ -363,7 +363,7 @@ export default function ElderlyDashboard() {
                 <p className="text-2xl font-bold text-gray-800">
                   {Math.round(medicines.reduce((acc, m) => acc + m.adherenceStreak, 0) / medicines.length)}
                 </p>
-                <p className="text-sm text-gray-600">औसत स्ट्रीक</p>
+                <p className="text-sm text-gray-600">{t('dashboard.average.streak')}</p>
               </div>
             </div>
           </div>
@@ -373,7 +373,7 @@ export default function ElderlyDashboard() {
               <Clock className="w-8 h-8 text-yellow-600 mr-3" />
               <div>
                 <p className="text-2xl font-bold text-gray-800">{upcomingReminders.length}</p>
-                <p className="text-sm text-gray-600">आगामी रिमाइंडर</p>
+                <p className="text-sm text-gray-600">{t('dashboard.upcoming.reminders')}</p>
               </div>
             </div>
           </div>
@@ -385,7 +385,7 @@ export default function ElderlyDashboard() {
                 <p className="text-2xl font-bold text-gray-800">
                   {medicines.filter(m => m.stockCount <= 7).length}
                 </p>
-                <p className="text-sm text-gray-600">कम स्टॉक</p>
+                <p className="text-sm text-gray-600">{t('dashboard.low.stock')}</p>
               </div>
             </div>
           </div>
@@ -470,7 +470,7 @@ export default function ElderlyDashboard() {
             {/* Adherence Chart */}
             <div className="bg-white rounded-xl shadow-sm border border-medical-100 p-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                साप्ताहिक रिपोर्ट
+                {t('dashboard.weekly.report')}
               </h3>
               <Bar 
                 data={adherenceData} 
@@ -494,7 +494,7 @@ export default function ElderlyDashboard() {
             {/* Stock Chart */}
             <div className="bg-white rounded-xl shadow-sm border border-medical-100 p-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                दवा स्टॉक स्थिति
+                {t('dashboard.medicine.stock.status')}
               </h3>
               <Bar 
                 data={stockData}

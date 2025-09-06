@@ -7,7 +7,6 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'fire
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../../lib/firebase'
 import { User, Settings, Heart, Shield, Languages, Users, ArrowLeft } from 'lucide-react'
-import FirebaseConfigChecker from '../../components/FirebaseConfigChecker'
 import toast from 'react-hot-toast'
 
 interface LoginForm {
@@ -388,10 +387,6 @@ export default function GetStartedPage() {
             >
               {isLogin ? t('login.create.account') : t('login.have.account')}
             </button>
-          </div>
-
-          <div className="mt-8">
-            <FirebaseConfigChecker />
           </div>
         </div>
       </div>

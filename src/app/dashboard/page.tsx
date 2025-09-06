@@ -179,9 +179,9 @@ export default function DashboardPage() {
     const oneWeekFromNow = new Date()
     oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7)
     
-    if (expiryDate <= now) return 'Expired'
-    if (expiryDate <= oneWeekFromNow) return 'Expiring Soon'
-    return 'Active'
+    if (expiryDate <= now) return t('status.expired')
+    if (expiryDate <= oneWeekFromNow) return t('status.expiring.soon')
+    return t('status.active')
   }
   return (
     <div className="min-h-screen bg-gray-50">
@@ -263,7 +263,7 @@ export default function DashboardPage() {
                 <Calendar className="h-6 w-6 text-purple-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Adherence Rate</p>
+                <p className="text-sm font-medium text-gray-600">{t('dashboard.adherence.rate')}</p>
                 <p className="text-2xl font-bold text-gray-900">94%</p>
               </div>
             </div>
